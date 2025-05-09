@@ -6,7 +6,7 @@ from sqlalchemy.schema import PrimaryKeyConstraint
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-DATABASE_URL = ""
+DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
@@ -15,13 +15,9 @@ db_session = DBSession()
 # Define User table
 class User(Base):
     __tablename__ = 'users'
-    username = Column(String, nullable=False)
+    username = Column(String, primary_key=True)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
-
-    __table_args__ = (
-        PrimaryKeyConstraint('username', 'email'),
-    )
 
 # Create the table (run once)
 Base.metadata.create_all(engine)
@@ -37,12 +33,57 @@ def index():
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
+    loginFeedback = "DNE"
     global loggedIn, user
-    return redirect(url_for("index"))
+
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        # SQL query to get user info
+        user_obj = db_session.query(User).filter_by(username=username).first()
+
+        # Check if user exists
+        if user_obj:
+            storedPassword = user_obj.password
+            if password == storedPassword:
+                loggedIn = True
+                user = username
+                return redirect(url_for("index"))
+            else:
+                loginFeedback = "passwordDNE"
+        else:
+            loginFeedback = "userDNE"
+
+    return render_template('login.html', loginFeedback=loginFeedback)
 
 @app.route('/signUp', methods=["GET", "POST"])
 def signUp():
-    return redirect(url_for("index"))
+    accountStatus = "DNE"
+
+    if request.method == "POST":
+        username = request.form["username"]
+        email = request.form["email"]
+        password = request.form["password"]
+
+        # Check if user already exists by username
+        existing_user = db_session.query(User).filter_by(username=username).first()
+
+        if existing_user:
+            return render_template("signUp.html", accountStatus="Exists")
+
+        # Create and insert new user
+        new_user = User(
+            username=username,
+            email=email,
+            password=password
+        )
+
+        db_session.add(new_user)
+        db_session.commit()
+        accountStatus = "Created"
+
+    return render_template('signUp.html', accountStatus=accountStatus)
 
 @app.route('/about')
 def about():

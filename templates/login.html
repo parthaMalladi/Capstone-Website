@@ -27,13 +27,13 @@
     </style>
 </head>
 <body>
-    <div class="bg-dark text-info py-4 text-center">
-      <h2 class="mb-0">To-Do Clock</h2>
+    <div class="bg-dark text-white py-4 text-center">
+      <h1 class="mb-0">Health Finder</h1>
     </div>
 
     <div class="login-container">
         <div class="card login-card w-50">
-            <h3 class="text-center mb-4 text-info">Login</h3>
+            <h3 class="text-center mb-4 text-primary">Login</h3>
             <form action="/login" method="POST">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
@@ -43,35 +43,35 @@
                     <label for="password" class="form-label">Password</label>
                     <input type="password" class="form-control" name="password" placeholder="Enter password" required>
                 </div>
-                <button type="submit" class="btn btn-info submit-btn w-100">Submit</button>
+                <button type="submit" class="btn btn-primary submit-btn w-100">Submit</button>
             </form>
+
+            {% if loginFeedback == "userDNE" %}
+                <div class="alert alert-warning mt-4 text-center">
+                    Incorrect Username or Account Does Not Exist!
+                </div>
+            {% elif loginFeedback == "passwordDNE" %}
+                <div class="alert alert-danger mt-4 text-center">
+                    Incorrect Password!
+                </div>
+            {% endif %}
         </div>
     </div>
 
-    {% if loginFeedback == "userDNE" %}
-        <div class="alert alert-warning mt-3 text-center">
-            Incorrect Username or Account Does Not Exist!
-        </div>
-    {% elif loginFeedback == "passwordDNE" %}
-        <div class="alert alert-danger mt-3 text-center">
-            Incorrect Password!
-        </div>
-    {% endif %}
-
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <p class="col-md-4 mb-0 text-body-secondary">To-Do Clock</p>
+            <p class="col-md-4 mb-0 text-body-secondary">Health Finder</p>
 
             <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="32" fill="currentColor" class="bi me-2" viewBox="0 0 16 16">
-                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z"/>
-                    <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0M7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"/>
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
                 </svg>
             </a>
 
             <ul class="nav col-md-4 justify-content-end">
                 <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
-                <li class="nav-item"><a href="/features" class="nav-link px-2 text-body-secondary">Features</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link px-2 text-body-secondary">About</a></li>
             </ul>
         </footer>
     </div>
