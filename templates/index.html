@@ -31,21 +31,30 @@
           </div>
     
           <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
-            <li><a href="#" class="nav-link px-2">Features</a></li>
-            <li><a href="#" class="nav-link px-2">Diagnosis</a></li>
-            <li><a href="#" class="nav-link px-2">About</a></li>
+            <li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
+            <li><a href="/about" class="nav-link px-2">About</a></li>
           </ul>
     
           <div class="col-md-3 text-end">
-            <button type="button" class="btn btn-outline-primary me-2">Login</button>
-            <button type="button" class="btn btn-primary">Sign-up</button>
+            {% if loggedIn == False %}
+              <a href="/login"><button type="button" class="btn btn-outline-primary me-2">Login</button></a>
+              <a href="/signUp"><button type="button" class="btn btn-primary">Sign-up</button></a>
+            {% else %}
+              <a href="/signOut"><button type="button" class="btn btn-outline-primary me-2">Logout</button></a>
+              <a href="/profile"><button type="button" class="btn btn-primary">My Profile</button></a>              
+            {% endif %}
           </div>
         </header>
       </div>
 
-      <div class="container col-xxl-8 px-4 py-5">
-        <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+      <div class="container col-xxl-8 px-4">
+        <div class="row flex-lg-row-reverse align-items-center g-5">
+          {% if loggedIn == False and diganosisClicked == True%}
+            <div class="alert alert-warning text-center">
+                Login or Sign-Up To Access Diagnosis
+            </div>
+          {% endif %}
+
           <div class="col-10 col-sm-8 col-lg-6">
             <img src="{{ url_for('static', filename='images/health.jpg') }}" class="d-block mx-lg-auto img-fluid heart" alt="Bootstrap Themes" width="700" height="700" loading="lazy">
           </div>
@@ -53,8 +62,12 @@
             <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Health Finder</h1>
             <p class="lead">An app that offers users health analytics based on their health markers. Uses a machine learning algorithm trained on pre-existing datasets that predicts the risk of heart disease, diabetes, and other ailments.</p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-              <button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Sign-Up</button>
-              <button type="button" class="btn btn-outline-secondary btn-lg px-4">About</button>
+              {% if loggedIn == False %}
+                <a href="/signUp"><button type="button" class="btn btn-primary btn-lg px-4 me-md-2">Sign-Up</button></a>
+                <a href="/about"><button type="button" class="btn btn-outline-secondary btn-lg px-4">About</button></a>
+              {% else %}
+                <a href="/profile"><button type="button" class="btn btn-primary btn-lg px-4 me-md-2">My Profile</button></a>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -72,9 +85,10 @@
             <div>
               <h3 class="fs-2 text-body-emphasis">Heart Disease</h3>
               <p>Heart disease refers to a range of conditions that affect the heart, most commonly involving narrowed or blocked blood vessels that can lead to heart attacks, chest pain, or stroke. It’s often caused by a buildup of plaque in the arteries and is influenced by factors like high blood pressure, smoking, and high cholesterol.</p>
-              <a href="#" class="btn btn-primary">
-                Predicitive Diagnosis
-              </a>
+              <form action="/diagnosis" method="POST">
+                <input type="hidden" name="action" value="heart">
+                <button type="submit" class="btn btn-primary">Predictive Diagnosis</button>
+              </form>  
             </div>
           </div>
           <div class="col d-flex align-items-start">
@@ -88,9 +102,10 @@
             <div>
               <h3 class="fs-2 text-body-emphasis">Stroke</h3>
               <p>A stroke occurs when blood flow to part of the brain is blocked or a blood vessel in the brain bursts, causing brain cells to die. It can lead to lasting brain damage, disability, or even death if not treated quickly.</p>
-              <a href="#" class="btn btn-primary">
-                Predicitive Diagnosis
-              </a>
+              <form action="/diagnosis" method="POST">
+                <input type="hidden" name="action" value="stroke">
+                <button type="submit" class="btn btn-primary">Predictive Diagnosis</button>
+              </form>              
             </div>
           </div>
           <div class="col d-flex align-items-start">
@@ -106,9 +121,10 @@
             <div>
               <h3 class="fs-2 text-body-emphasis">Type 2 Diabetes</h3>
               <p>Type 2 diabetes is a chronic condition where the body becomes resistant to insulin or doesn't produce enough of it, leading to high blood sugar levels. It’s often linked to lifestyle factors like poor diet, lack of exercise, and obesity, but genetics can also play a role.</p>
-              <a href="#" class="btn btn-primary">
-                Predicitive Diagnosis
-              </a>
+              <form action="/diagnosis" method="POST">
+                <input type="hidden" name="action" value="diabetes">
+                <button type="submit" class="btn btn-primary">Predictive Diagnosis</button>
+              </form>
             </div>
           </div>
         </div>
