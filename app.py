@@ -23,18 +23,18 @@ class User(Base):
 Base.metadata.create_all(engine)
 
 # Keep track of logged-in user
-diganosisClicked = False
+diagnosisClicked = False
 loggedIn = False
 user = ""
 
 @app.route('/')
 def index():
-    return render_template('index.html', user=user, loggedIn=loggedIn, diganosisClicked=diganosisClicked)
+    return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
     loginFeedback = "DNE"
-    global loggedIn, user
+    global loggedIn, user, diagnosisClicked
 
     if request.method == "POST":
         username = request.form["username"]
@@ -49,6 +49,7 @@ def login():
             if password == storedPassword:
                 loggedIn = True
                 user = username
+                diagnosisClicked = False
                 return redirect(url_for("index"))
             else:
                 loginFeedback = "passwordDNE"
@@ -95,17 +96,21 @@ def profile():
 
 @app.route('/diagnosis', methods=["POST"])
 def diagnosis():
-    global diganosisClicked
+    global diagnosisClicked
 
     if loggedIn == False:
-        diganosisClicked = True
+        diagnosisClicked = True
         return redirect(url_for("index")) 
 
     action = request.form.get('action')
     print(action)
-    if diganosisClicked == True:
-        diganosisClicked = False
-    return render_template('diagnosis.html')
+    diagnosisClicked = False
+    return render_template('diagnosis.html', action=action)
+
+@app.route('/result', methods=["POST"])
+def result():
+    diagnosisType = request.form.get('diagnosisType')
+    return render_template('result.html', diagnosisType=diagnosisType)
 
 @app.route('/signOut')
 def signOut():
