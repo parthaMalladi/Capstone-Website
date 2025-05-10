@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-DATABASE_URL = ""
+DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
@@ -148,7 +148,23 @@ def about():
 
 @app.route('/profile')
 def profile():
-    return render_template('about.html')
+    currAccount = db_session.query(User).filter_by(username=user).first()
+    diagnostics = currAccount.diagnostics
+
+    # Fetch each specific diagnostic subtype
+    all_diagnostics = []
+    for d in diagnostics:
+        detail = None
+        print(d.diagnostic_type + " " + str(d.diagnostic_id))
+
+        if d.diagnostic_type == "heart":
+            detail = db_session.query(HeartDiseaseDiagnostic).filter_by(diagnostic_id=d.diagnostic_id).first()
+        elif d.diagnostic_type == "stroke":
+            detail = db_session.query(StrokeDiagnostic).filter_by(diagnostic_id=d.diagnostic_id).first()
+        elif d.diagnostic_type == "diabetes":
+            detail = db_session.query(DiabetesDiagnostic).filter_by(diagnostic_id=d.diagnostic_id).first()
+
+    return render_template('profile.html', diagnostics=all_diagnostics)
 
 @app.route('/diagnosis', methods=["POST"])
 def diagnosis():
