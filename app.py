@@ -1,7 +1,9 @@
 from flask import Flask, render_template, request, url_for, redirect
-from sqlalchemy import create_engine, Column, String
-from sqlalchemy.orm import declarative_base, sessionmaker
-from sqlalchemy.schema import PrimaryKeyConstraint
+from sqlalchemy import create_engine, Column, String, Integer, Float, ForeignKey, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, relationship
+from sqlalchemy.sql import func
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -18,6 +20,60 @@ class User(Base):
     username = Column(String, primary_key=True)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
+    diagnostics = relationship("Diagnostic", back_populates="user")
+
+# Diagnostics table (common metadata)
+class Diagnostic(Base):
+    __tablename__ = 'diagnostics'
+    diagnostic_id = Column(Integer, primary_key=True, autoincrement=True)
+    username = Column(String, ForeignKey('users.username'), nullable=False)
+    diagnostic_type = Column(String, nullable=False)  # 'stroke', 'diabetes', 'heart_disease'
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    user = relationship("User", back_populates="diagnostics")
+
+# Diabetes diagnostics
+class DiabetesDiagnostic(Base):
+    __tablename__ = 'diabetes_diagnostics'
+    diagnostic_id = Column(Integer, ForeignKey('diagnostics.diagnostic_id'), primary_key=True)
+    pregnancies = Column(String)
+    glucose = Column(String)
+    blood_pressure = Column(String)
+    skin_thickness = Column(String)
+    insulin = Column(String)
+    bmi = Column(String)
+    diabetes_pedigree_function = Column(String)
+    age = Column(String)
+
+# Stroke diagnostics
+class StrokeDiagnostic(Base):
+    __tablename__ = 'stroke_diagnostics'
+    diagnostic_id = Column(Integer, ForeignKey('diagnostics.diagnostic_id'), primary_key=True)
+    gender = Column(String)
+    age = Column(String)
+    hypertension = Column(String)
+    heart_disease = Column(String)
+    ever_married = Column(String)
+    work_type = Column(String)
+    residence_type = Column(String)
+    avg_glucose_level = Column(String)
+    bmi = Column(String)
+    smoking_status = Column(String)
+
+# Heart Disease diagnostics
+class HeartDiseaseDiagnostic(Base):
+    __tablename__ = 'heart_disease_diagnostics'
+    diagnostic_id = Column(Integer, ForeignKey('diagnostics.diagnostic_id'), primary_key=True)
+    age = Column(String)
+    sex = Column(String)
+    chest_pain_type = Column(String)
+    resting_bp = Column(String)
+    cholesterol = Column(String)
+    fasting_bs = Column(String)
+    resting_ecg = Column(String)
+    max_hr = Column(String)
+    exercise_angina = Column(String)
+    oldpeak = Column(String)
+    st_slope = Column(String)
 
 # Create the table (run once)
 Base.metadata.create_all(engine)
@@ -110,6 +166,64 @@ def diagnosis():
 @app.route('/result', methods=["POST"])
 def result():
     diagnosisType = request.form.get('diagnosisType')
+    username = user
+
+    # Step 1: Add to Diagnostics table
+    diagnostic = Diagnostic(
+        username=username,
+        diagnostic_type=diagnosisType
+    )
+    db_session.add(diagnostic)
+    db_session.commit()  # Commit to generate diagnostic_id
+
+    # Step 2: Add to the corresponding table
+    if diagnosisType == 'diabetes':
+        diag = DiabetesDiagnostic(
+            diagnostic_id=diagnostic.diagnostic_id,
+            pregnancies=request.form.get('pregnancies'),
+            glucose=request.form.get('glucose'),
+            blood_pressure=request.form.get('bloodPressure'),
+            skin_thickness=request.form.get('skinThickness'),
+            insulin=request.form.get('insulin'),
+            bmi=request.form.get('bmi'),
+            diabetes_pedigree_function=request.form.get('diabetesPedigreeFunction'),
+            age=request.form.get('age')
+        )
+    elif diagnosisType == 'stroke':
+        diag = StrokeDiagnostic(
+            diagnostic_id=diagnostic.diagnostic_id,
+            gender=request.form.get('gender'),
+            age=request.form.get('age'),
+            hypertension=request.form.get('hypertension'),
+            heart_disease=request.form.get('heart_disease'),
+            ever_married=request.form.get('ever_married'),
+            work_type=request.form.get('work_type'),
+            residence_type=request.form.get('residence_type'),
+            avg_glucose_level=request.form.get('avg_glucose_level'),
+            bmi=request.form.get('bmi'),
+            smoking_status=request.form.get('smoking_status')
+        )
+    elif diagnosisType == 'heart':
+        diag = HeartDiseaseDiagnostic(
+            diagnostic_id=diagnostic.diagnostic_id,
+            age=request.form.get('age'),
+            sex=request.form.get('sex'),
+            chest_pain_type=request.form.get('chestPainType'),
+            resting_bp=request.form.get('restingBP'),
+            cholesterol=request.form.get('cholesterol'),
+            fasting_bs=request.form.get('fastingBS'),
+            resting_ecg=request.form.get('restingECG'),
+            max_hr=request.form.get('maxHR'),
+            exercise_angina=request.form.get('exerciseAngina'),
+            oldpeak=request.form.get('oldpeak'),
+            st_slope=request.form.get('st_slope')
+        )
+    else:
+        return "Invalid diagnosis type", 400
+
+    db_session.add(diag)
+    db_session.commit()
+
     return render_template('result.html', diagnosisType=diagnosisType)
 
 @app.route('/signOut')
