@@ -8,7 +8,7 @@ from datetime import datetime
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
+DATABASE_URL = ""
 engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
