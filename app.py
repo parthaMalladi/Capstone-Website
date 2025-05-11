@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
 from datetime import datetime
+from sqlalchemy.inspection import inspect
 
 app = Flask(__name__)
 
@@ -151,11 +152,14 @@ def profile():
     currAccount = db_session.query(User).filter_by(username=user).first()
     diagnostics = currAccount.diagnostics
 
+    # arrays to store the various diagnostic history
+    heart_diagnostics = []
+    stroke_diagnostics = []
+    diabetes_diagnostics = []
+
     # Fetch each specific diagnostic subtype
-    all_diagnostics = []
     for d in diagnostics:
         detail = None
-        print(d.diagnostic_type + " " + str(d.diagnostic_id))
 
         if d.diagnostic_type == "heart":
             detail = db_session.query(HeartDiseaseDiagnostic).filter_by(diagnostic_id=d.diagnostic_id).first()
@@ -164,7 +168,21 @@ def profile():
         elif d.diagnostic_type == "diabetes":
             detail = db_session.query(DiabetesDiagnostic).filter_by(diagnostic_id=d.diagnostic_id).first()
 
-    return render_template('profile.html', diagnostics=all_diagnostics)
+        # inspect all the columns of each user diagnosis
+        temp = []
+        mapper = inspect(detail.__class__)
+        for column in mapper.attrs:
+            value = getattr(detail, column.key)
+            temp.append((column.key, value))
+
+        if d.diagnostic_type == "heart":
+           heart_diagnostics.append(temp)
+        elif d.diagnostic_type == "stroke":
+            stroke_diagnostics.append(temp)
+        elif d.diagnostic_type == "diabetes":
+            diabetes_diagnostics.append(temp)
+
+    return render_template('profile.html', heart=heart_diagnostics, stroke=stroke_diagnostics, diabetes=diabetes_diagnostics)
 
 @app.route('/diagnosis', methods=["POST"])
 def diagnosis():
