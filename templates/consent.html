@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #ffffff;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .login-card {
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-dark text-white py-4 text-center">
+      <h1 class="mb-0">Health Finder</h1>
+    </div>
+
+    <div class="login-container">
+        <div class="card login-card w-50">
+            <h3 class="text-center mb-4">HIPAA Consent Form</h3>
+            <form method="POST" action="/consent">
+                <div class="mb-3" style="max-height: 320px; overflow-y: auto; border: 1px solid #ccc; padding: 1rem; border-radius: 5px;">
+                    <p><strong>Authorization to Use and Disclose Protected Health Information (PHI)</strong></p>
+                    <p>By using this service, you consent to the collection, storage, and use of your personal and health-related information in accordance with the Health Insurance Portability and Accountability Act (HIPAA).</p>
+                    <p><strong>1. Description of Information to Be Used or Disclosed</strong><br>
+                    I authorize Health Finder to collect, use, and disclose the following health information: information I provide about my health conditions, test results, and any data I upload to the site.</p>
+                    <p><strong>2. Purpose of Disclosure</strong><br>
+                    This data is used to provide services, health insights, and platform improvements.</p>
+                    <p><strong>3. Right to Revoke Authorization</strong><br>
+                    I may revoke this at any time. Revocation will not affect prior disclosures made in reliance on this consent.</p>
+                    <p><strong>4. Expiration</strong><br>
+                    This consent remains in effect until I deactivate my account or request deletion of my data.</p>
+                    <p><strong>5. Acknowledgment</strong><br>
+                    I understand the above and agree to the use of my health data as described. Disagreeing will log you out.</p>
+                </div>
+
+                <div class="form-check my-3">
+                    <input class="form-check-input" type="checkbox" id="agreeCheckbox" required>
+                    <label class="form-check-label" for="agreeCheckbox">
+                        I have read the HIPAA Authorization.
+                    </label>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" name="action" value="agree" class="btn btn-success">Agree</button>
+                    <button type="submit" name="action" value="disagree" class="btn btn-danger">Disagree</button>
+                </div>
+            </form>            
+        </div>
+    </div>
+
+    <div class="container">
+        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+            <p class="col-md-4 mb-0 text-body-secondary">Health Finder</p>
+
+            <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                </svg>
+            </a>
+
+            <ul class="nav col-md-4 justify-content-end">
+                <li class="nav-item"><a href="/" class="nav-link px-2 text-body-secondary">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link px-2 text-body-secondary">About</a></li>
+            </ul>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

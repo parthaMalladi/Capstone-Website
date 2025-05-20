@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, url_for, redirect
-from sqlalchemy import create_engine, Column, String, Integer, Float, ForeignKey, DateTime
+from sqlalchemy import create_engine, Column, String, Integer, Float, ForeignKey, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
@@ -21,6 +21,7 @@ class User(Base):
     username = Column(String, primary_key=True)
     email = Column(String, nullable=False)
     password = Column(String, nullable=False)
+    consent = Column(Boolean, default=False)
     diagnostics = relationship("Diagnostic", back_populates="user")
 
 # Diagnostics table (common metadata)
@@ -86,7 +87,30 @@ user = ""
 
 @app.route('/')
 def index():
+    if loggedIn:
+        curr = db_session.query(User).filter_by(username=user).first()
+        if curr.consent == False:
+            return redirect(url_for("consent"))
+
     return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
+
+@app.route('/consent', methods=["GET", "POST"])
+def consent():
+    if request.method == "POST":
+        answer = request.form["action"]
+        curr = db_session.query(User).filter_by(username=user).first()
+
+        if answer == "disagree":
+            curr.consent = False
+            db_session.commit()
+            return redirect(url_for("signOut"))
+        else:
+            curr = db_session.query(User).filter_by(username=user).first()
+            curr.consent = True
+            db_session.commit()
+            return redirect(url_for("index"))  
+
+    return render_template('consent.html')
 
 @app.route('/login', methods=["GET", "POST"])
 def login():
