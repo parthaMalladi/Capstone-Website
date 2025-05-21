@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, request, url_for, redirect
 from sqlalchemy import create_engine, Column, String, Integer, Float, ForeignKey, DateTime, Boolean
 from sqlalchemy.ext.declarative import declarative_base
@@ -9,8 +10,8 @@ from sqlalchemy.inspection import inspect
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
-engine = create_engine(DATABASE_URL)
+# DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
+engine = create_engine(os.environ.get("DATABASE_URL"))
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
 db_session = DBSession()
@@ -78,7 +79,7 @@ class HeartDiseaseDiagnostic(Base):
     st_slope = Column(String)
 
 # Create the table (run once)
-Base.metadata.create_all(engine)
+# Base.metadata.create_all(engine)
 
 # Keep track of logged-in user
 diagnosisClicked = False
