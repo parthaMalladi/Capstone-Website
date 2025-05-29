@@ -45,65 +45,65 @@
     
                 {% if action == "stroke" %}
                     <h3 class="text-center mb-4">Stroke Prediction</h3>
-                    <form action="/result" method="POST">
+                    <form action="/result" method="POST" autocomplete="off">
                         <!-- Gender -->
                         <div class="mb-3">
                             <label class="form-label">Gender ("Male" or "Female")</label>
-                            <input type="text" class="form-control" name="gender" required>
+                            <input type="text" class="form-control" name="gender" autocomplete="off" required>
                         </div>
 
                         <!-- Age -->
                         <div class="mb-3">
                             <label class="form-label">Age (Enter a number in terms of years)</label>
-                            <input type="text" class="form-control" name="age" required>
+                            <input type="text" class="form-control" name="age" autocomplete="off" required>
                         </div>
 
                         <!-- Hypertension -->
                         <div class="mb-3">
                             <label class="form-label">Hypertension ("1" if you have hypertension, "0" otherwise)</label>
-                            <input type="text" class="form-control" name="hypertension" required>
+                            <input type="text" class="form-control" name="hypertension" autocomplete="off" required>
                         </div>
 
                         <!-- Heart Disease -->
                         <div class="mb-3">
                             <label class="form-label">Heart Disease ("1" if you have heart disease, "0" otherwise)</label>
-                            <input type="text" class="form-control" name="heart_disease" required>
+                            <input type="text" class="form-control" name="heart_disease" autocomplete="off" required>
                         </div>
 
                         <!-- Ever Married -->
                         <div class="mb-3">
                             <label class="form-label">Ever Married ("Yes" or "No")</label>
-                            <input type="text" class="form-control" name="ever_married" required>
+                            <input type="text" class="form-control" name="ever_married" autocomplete="off" required>
                         </div>
 
                         <!-- Work Type -->
                         <div class="mb-3">
                             <label class="form-label">Work Type ("children", "Govt_jov", "Never_worked", "Private" or "Self-employed")</label>
-                            <input type="text" class="form-control" name="work_type" required>
+                            <input type="text" class="form-control" name="work_type" autocomplete="off" required>
                         </div>
 
                         <!-- Residence Type -->
                         <div class="mb-3">
                             <label class="form-label">Residence Type ("Rural" or "Urban")</label>
-                            <input type="text" class="form-control" name="residence_type" required>
+                            <input type="text" class="form-control" name="residence_type" autocomplete="off" required>
                         </div>
 
                         <!-- Average Glucose Level -->
                         <div class="mb-3">
                             <label class="form-label">Avg Glucose Level (Enter a number in terms of mg/dL)</label>
-                            <input type="text" class="form-control" name="avg_glucose_level" required>
+                            <input type="text" class="form-control" name="avg_glucose_level" autocomplete="off" required>
                         </div>
 
                         <!-- BMI -->
                         <div class="mb-3">
                             <label class="form-label">BMI (Enter a number for your BMI)</label>
-                            <input type="text" class="form-control" name="bmi" required>
+                            <input type="text" class="form-control" name="bmi" autocomplete="off" required>
                         </div>
 
                         <!-- Smoking Status -->
                         <div class="mb-3">
                             <label class="form-label">Smoking Status ("formerly smoked", "never smoked", "smokes")</label>
-                            <input type="text" class="form-control" name="smoking_status" required>
+                            <input type="text" class="form-control" name="smoking_status" autocomplete="off" required>
                         </div>
 
                         <!-- Hidden input -->
@@ -118,67 +118,67 @@
                         <!-- Age -->
                         <div class="mb-3">
                             <label class="form-label">Age (Enter a number in terms of years)</label>
-                            <input type="text" class="form-control" name="age" required>
+                            <input type="text" class="form-control" name="age" autocomplete="off" required>
                         </div>
 
                         <!-- Sex -->
                         <div class="mb-3">
                             <label class="form-label">Sex ("M" for Male, "F" for Female)</label>
-                            <input type="text" class="form-control" name="sex" required>
+                            <input type="text" class="form-control" name="sex" autocomplete="off" required>
                         </div>
 
                         <!-- Chest Pain Type -->
                         <div class="mb-3">
                             <label class="form-label">Chest Pain Type ("TA": Typical Angina, "ATA": Atypical Angina, "NAP": Non-Anginal Pain, "ASY": Asymptomatic)</label>
-                            <input type="text" class="form-control" name="chestPainType" required>
+                            <input type="text" class="form-control" name="chestPainType" autocomplete="off" required>
                         </div>
 
                         <!-- Resting BP -->
                         <div class="mb-3">
                             <label class="form-label">RestingBP (Enter a number for systolic pressure in terms of mm Hg)</label>
-                            <input type="text" class="form-control" name="restingBP" required>
+                            <input type="text" class="form-control" name="restingBP" autocomplete="off" required>
                         </div>
 
                         <!-- Cholesterol -->
                         <div class="mb-3">
                             <label class="form-label">Cholesterol (Enter a number for serum cholesterol in terms of mm/dL)</label>
-                            <input type="text" class="form-control" name="cholesterol" required>
+                            <input type="text" class="form-control" name="cholesterol" autocomplete="off" required>
                         </div>
 
                         <!-- Fasting BS -->
                         <div class="mb-3">
-                            <label class="form-label">FastingBS (Enter 1 if fasting blood sugar is above 120 mg/dL, otherwise enter 0)</label>
-                            <input type="text" class="form-control" name="fastingBS" required>
+                            <label class="form-label">FastingBS (Enter "1" if fasting blood sugar is above 120 mg/dL, otherwise enter "0")</label>
+                            <input type="text" class="form-control" name="fastingBS" autocomplete="off" required>
                         </div>
 
                         <!-- Resting ECG -->
                         <div class="mb-3">
                             <label class="form-label">RestingECG ("Normal": Normal, "ST": T wave inversions and/or ST elevation or depression of > 0.05 mV, "LVH": showing probable or definite left ventricular hypertrophy)</label>
-                            <input type="text" class="form-control" name="restingECG" required>
+                            <input type="text" class="form-control" name="restingECG" autocomplete="off" required>
                         </div>
 
                         <!-- Max HR -->
                         <div class="mb-3">
                             <label class="form-label">MaxHR (Enter a number in terms of BPM)</label>
-                            <input type="text" class="form-control" name="maxHR" required>
+                            <input type="text" class="form-control" name="maxHR" autocomplete="off" required>
                         </div>
 
                         <!-- Exercise Angina -->
                         <div class="mb-3">
                             <label class="form-label">ExerciseAngina ("Y" if you experience chest pain or discomfort while exercising, "N" otherwise)</label>
-                            <input type="text" class="form-control" name="exerciseAngina" required>
+                            <input type="text" class="form-control" name="exerciseAngina" autocomplete="off" required>
                         </div>
 
                         <!-- Oldpeak -->
                         <div class="mb-3">
                             <label class="form-label">Oldpeak (Enter a number for the ST Depression; usually between -2.6 and 6.2)</label>
-                            <input type="text" class="form-control" name="oldpeak" required>
+                            <input type="text" class="form-control" name="oldpeak" autocomplete="off" required>
                         </div>
 
                         <!-- ST_Slope -->
                         <div class="mb-3">
                             <label class="form-label">ST_Slope ("Up": upsloping, "Flat": flat, "Down": downsloping)</label>
-                            <input type="text" class="form-control" name="st_slope" required>
+                            <input type="text" class="form-control" name="st_slope" autocomplete="off" required>
                         </div>
 
                         <!-- Hidden input -->
@@ -193,49 +193,49 @@
                         <!-- Pregnancies -->
                         <div class="mb-3">
                             <label class="form-label">Pregnancies (Enter the number of times you have been pregnant)</label>
-                            <input type="text" class="form-control" name="pregnancies" required>
+                            <input type="text" class="form-control" name="pregnancies" autocomplete="off" required>
                         </div>
 
                         <!-- Glucose -->
                         <div class="mb-3">
                             <label class="form-label">Glucose (Enter a number in terms of mg/dL)</label>
-                            <input type="text" class="form-control" name="glucose" required>
+                            <input type="text" class="form-control" name="glucose" autocomplete="off" required>
                         </div>
 
                         <!-- Blood Pressure -->
                         <div class="mb-3">
                             <label class="form-label">Blood Pressure (Enter a number for diastolic pressure in terms of mm Hg)</label>
-                            <input type="text" class="form-control" name="bloodPressure" required>
+                            <input type="text" class="form-control" name="bloodPressure" autocomplete="off" required>
                         </div>
 
                         <!-- Skin Thickness -->
                         <div class="mb-3">
                             <label class="form-label">Skin Thickness (Enter a number in terms of mm)</label>
-                            <input type="text" class="form-control" name="skinThickness" required>
+                            <input type="text" class="form-control" name="skinThickness" autocomplete="off" required>
                         </div>
 
                         <!-- Insulin -->
                         <div class="mb-3">
                             <label class="form-label">Insulin (Enter a number in terms of µU/mL)</label>
-                            <input type="text" class="form-control" name="insulin" required>
+                            <input type="text" class="form-control" name="insulin" autocomplete="off" required>
                         </div>
 
                         <!-- BMI -->
                         <div class="mb-3">
                             <label class="form-label">BMI (Enter a number for your BMI)</label>
-                            <input type="text" class="form-control" name="bmi" required>
+                            <input type="text" class="form-control" name="bmi" autocomplete="off" required>
                         </div>
 
                         <!-- Diabetes Pedigree Function -->
                         <div class="mb-3">
                             <label class="form-label">Diabetes Pedigree Function (Enter a decimal value between 0 and 1)</label>
-                            <input type="text" class="form-control" name="diabetesPedigreeFunction" required>
+                            <input type="text" class="form-control" name="diabetesPedigreeFunction" autocomplete="off" required>
                         </div>
 
                         <!-- Age -->
                         <div class="mb-3">
                             <label class="form-label">Age (Enter a number in terms of years)</label>
-                            <input type="text" class="form-control" name="age" required>
+                            <input type="text" class="form-control" name="age" autocomplete="off" required>
                         </div>
 
                         <!-- Hidden input -->

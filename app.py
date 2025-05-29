@@ -6,12 +6,16 @@ from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.sql import func
 from datetime import datetime
 from sqlalchemy.inspection import inspect
+import joblib
+import numpy as np
+import pandas as pd
 
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-# DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
-engine = create_engine(os.environ.get("DATABASE_URL"))
+DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
+# engine = create_engine(os.environ.get("DATABASE_URL"))
+engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
 db_session = DBSession()
@@ -86,16 +90,15 @@ diagnosisClicked = False
 loggedIn = False
 user = ""
 currPredict = ""
+currID = 0
 
 @app.route('/')
 def index():
-    global currPredict
     if loggedIn:
         curr = db_session.query(User).filter_by(username=user).first()
         if curr.consent == False:
             return redirect(url_for("consent"))
 
-    currPredict = ""
     return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
 
 @app.route('/consent', methods=["GET", "POST"])
@@ -215,7 +218,6 @@ def profile():
 @app.route('/diagnosis', methods=["POST"])
 def diagnosis():
     global diagnosisClicked
-    global currPredict
 
     if loggedIn == False:
         diagnosisClicked = True
@@ -224,12 +226,11 @@ def diagnosis():
     action = request.form.get('action')
     print(action)
     diagnosisClicked = False
-    currPredict = ""
     return render_template('diagnosis.html', action=action)
 
 @app.route('/result', methods=["POST"])
 def result():
-    global currPredict
+    global currPredict, currID
     diagnosisType = request.form.get('diagnosisType')
     username = user
 
@@ -289,12 +290,102 @@ def result():
     db_session.add(diag)
     db_session.commit()
     currPredict = diagnosisType
+    currID = diagnostic.diagnostic_id
 
     return redirect(url_for('predict'))
 
 @app.route('/predict', methods=['GET'])
 def predict():
-    return render_template('result.html', result=currPredict)
+    prediction = -1
+
+    if currPredict == 'diabetes':
+        # load ML models
+        model = joblib.load(os.path.join('pickles', 'DiabetesModel.pkl'))
+
+        # column names
+        colNames = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age']
+
+        # get user query from database
+        info = db_session.query(DiabetesDiagnostic).filter_by(diagnostic_id=currID).first()
+
+        # create a sample dataframe and predict
+        userSample = pd.DataFrame([[np.int64(info.pregnancies), 
+                                    np.int64(info.glucose), 
+                                    np.int64(info.blood_pressure), 
+                                    np.int64(info.skin_thickness), 
+                                    np.int64(info.insulin), 
+                                    np.float64(info.bmi), 
+                                    np.float64(info.diabetes_pedigree_function), 
+                                    np.int64(info.age)]], columns=colNames)
+        prediction = model.predict(userSample)
+
+    elif currPredict == "stroke":
+        # load ML models
+        model = joblib.load(os.path.join('pickles', 'StrokeModel.pkl'))
+        encoders = joblib.load(os.path.join('pickles', 'StrokeEncoders.pkl'))
+
+        # column names
+        categories = ['gender', 'ever_married', 'work_type', 'Residence_type', 'smoking_status']
+        colNames = ['gender', 'age', 'hypertension', 'heart_disease', 'ever_married', 'work_type', 'Residence_type', 'avg_glucose_level', 'bmi', 'smoking_status']
+
+        # get user query from database
+        info = db_session.query(StrokeDiagnostic).filter_by(diagnostic_id=currID).first()
+
+        # create a sample dataframe
+        userSample = pd.DataFrame([[info.gender, 
+                                    np.float64(info.age), 
+                                    np.int64(info.hypertension), 
+                                    np.int64(info.heart_disease), 
+                                    info.ever_married, 
+                                    info.work_type, 
+                                    info.residence_type, 
+                                    np.float64(info.avg_glucose_level), 
+                                    np.float64(info.bmi), 
+                                    info.smoking_status]], columns=colNames)
+        
+        # encode categorical columns to numerical and predict
+        for col in categories:
+            le = encoders[col]
+            userSample[col] = le.transform(userSample[col])
+
+        prediction = model.predict(userSample)
+
+    elif currPredict == "heart":
+        # load ML models
+        model = joblib.load(os.path.join('pickles', 'HeartModel.pkl'))
+        encoders = joblib.load(os.path.join('pickles', 'HeartEncoders.pkl'))
+
+        # column names
+        categories = ["Sex", "ChestPainType", "RestingECG", "ExerciseAngina", "ST_Slope"]
+        colNames = ['Age', 'Sex', 'ChestPainType', 'RestingBP', 'Cholesterol', 'FastingBS', 'RestingECG', 'MaxHR', 'ExerciseAngina', 'Oldpeak', 'ST_Slope']
+
+        # get user query from database
+        info = db_session.query(HeartDiseaseDiagnostic).filter_by(diagnostic_id=currID).first()
+
+        # create a sample dataframe
+        userSample = pd.DataFrame([[np.int64(info.age), 
+                                    info.sex, 
+                                    info.chest_pain_type, 
+                                    np.int64(info.resting_bp), 
+                                    np.int64(info.cholesterol), 
+                                    np.int64(info.fasting_bs), 
+                                    info.resting_bp, 
+                                    np.int64(info.max_hr), 
+                                    info.exercise_angina, 
+                                    np.float64(info.oldpeak), 
+                                    info.st_slope]], columns=colNames)
+        
+        # encode categorical columns to numerical and predict
+        for col in categories:
+            le = encoders[col]
+            userSample[col] = le.transform(userSample[col])
+            
+        prediction = model.predict(userSample)
+
+    else:
+        return "Invalid Query", 400
+    
+    return render_template('result.html', type=currPredict, result=prediction)
 
 @app.route('/signOut')
 def signOut():
