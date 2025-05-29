@@ -13,9 +13,7 @@ import pandas as pd
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
-# engine = create_engine(os.environ.get("DATABASE_URL"))
-engine = create_engine(DATABASE_URL)
+engine = create_engine(os.environ.get("DATABASE_URL"))
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
 db_session = DBSession()
