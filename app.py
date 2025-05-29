@@ -367,7 +367,7 @@ def predict():
                                     np.int64(info.resting_bp), 
                                     np.int64(info.cholesterol), 
                                     np.int64(info.fasting_bs), 
-                                    info.resting_bp, 
+                                    info.resting_ecg, 
                                     np.int64(info.max_hr), 
                                     info.exercise_angina, 
                                     np.float64(info.oldpeak), 
