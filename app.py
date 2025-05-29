@@ -85,14 +85,17 @@ class HeartDiseaseDiagnostic(Base):
 diagnosisClicked = False
 loggedIn = False
 user = ""
+currPredict = ""
 
 @app.route('/')
 def index():
+    global currPredict
     if loggedIn:
         curr = db_session.query(User).filter_by(username=user).first()
         if curr.consent == False:
             return redirect(url_for("consent"))
 
+    currPredict = ""
     return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
 
 @app.route('/consent', methods=["GET", "POST"])
@@ -212,6 +215,7 @@ def profile():
 @app.route('/diagnosis', methods=["POST"])
 def diagnosis():
     global diagnosisClicked
+    global currPredict
 
     if loggedIn == False:
         diagnosisClicked = True
@@ -220,10 +224,12 @@ def diagnosis():
     action = request.form.get('action')
     print(action)
     diagnosisClicked = False
+    currPredict = ""
     return render_template('diagnosis.html', action=action)
 
 @app.route('/result', methods=["POST"])
 def result():
+    global currPredict
     diagnosisType = request.form.get('diagnosisType')
     username = user
 
@@ -282,8 +288,13 @@ def result():
 
     db_session.add(diag)
     db_session.commit()
+    currPredict = diagnosisType
 
-    return render_template('result.html', diagnosisType=diagnosisType)
+    return redirect(url_for('predict'))
+
+@app.route('/predict', methods=['GET'])
+def predict():
+    return render_template('result.html', result=currPredict)
 
 @app.route('/signOut')
 def signOut():
