@@ -233,7 +233,7 @@ def result():
         diagnostic_type=diagnosisType
     )
     db_session.add(diagnostic)
-    db_session.commit()  # Commit to generate diagnostic_id
+    db_session.commit()
 
     # Step 2: Add to the corresponding table
     if diagnosisType == 'diabetes':
