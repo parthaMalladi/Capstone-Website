@@ -1,96 +1,25 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect
-from sqlalchemy import create_engine, Column, String, Integer, Float, ForeignKey, DateTime, Boolean
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker, relationship
-from sqlalchemy.sql import func
-from datetime import datetime
-from sqlalchemy.inspection import inspect
+from db import db_session, Base, engine
+from schemas import User, Diagnostic, DiabetesDiagnostic, StrokeDiagnostic, HeartDiseaseDiagnostic
+from sqlalchemy import inspect
 import joblib
 import numpy as np
 import pandas as pd
 
 app = Flask(__name__)
 
-# Connect to PostgreSQL
-DATABASE_URL = ""
-engine = create_engine(DATABASE_URL)
-Base = declarative_base()
-DBSession = sessionmaker(bind=engine)
-db_session = DBSession()
-
-# Define User table
-class User(Base):
-    __tablename__ = 'users'
-    username = Column(String, primary_key=True)
-    email = Column(String, nullable=False)
-    password = Column(String, nullable=False)
-    consent = Column(Boolean, default=False)
-    diagnostics = relationship("Diagnostic", back_populates="user")
-
-# Diagnostics table (common metadata)
-class Diagnostic(Base):
-    __tablename__ = 'diagnostics'
-    diagnostic_id = Column(Integer, primary_key=True, autoincrement=True)
-    username = Column(String, ForeignKey('users.username'), nullable=False)
-    diagnostic_type = Column(String, nullable=False)  # 'stroke', 'diabetes', 'heart_disease'
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    user = relationship("User", back_populates="diagnostics")
-
-# Diabetes diagnostics
-class DiabetesDiagnostic(Base):
-    __tablename__ = 'diabetes_diagnostics'
-    diagnostic_id = Column(Integer, ForeignKey('diagnostics.diagnostic_id'), primary_key=True)
-    pregnancies = Column(String)
-    glucose = Column(String)
-    blood_pressure = Column(String)
-    skin_thickness = Column(String)
-    insulin = Column(String)
-    bmi = Column(String)
-    diabetes_pedigree_function = Column(String)
-    age = Column(String)
-
-# Stroke diagnostics
-class StrokeDiagnostic(Base):
-    __tablename__ = 'stroke_diagnostics'
-    diagnostic_id = Column(Integer, ForeignKey('diagnostics.diagnostic_id'), primary_key=True)
-    gender = Column(String)
-    age = Column(String)
-    hypertension = Column(String)
-    heart_disease = Column(String)
-    ever_married = Column(String)
-    work_type = Column(String)
-    residence_type = Column(String)
-    avg_glucose_level = Column(String)
-    bmi = Column(String)
-    smoking_status = Column(String)
-
-# Heart Disease diagnostics
-class HeartDiseaseDiagnostic(Base):
-    __tablename__ = 'heart_disease_diagnostics'
-    diagnostic_id = Column(Integer, ForeignKey('diagnostics.diagnostic_id'), primary_key=True)
-    age = Column(String)
-    sex = Column(String)
-    chest_pain_type = Column(String)
-    resting_bp = Column(String)
-    cholesterol = Column(String)
-    fasting_bs = Column(String)
-    resting_ecg = Column(String)
-    max_hr = Column(String)
-    exercise_angina = Column(String)
-    oldpeak = Column(String)
-    st_slope = Column(String)
-
-# Create the table (run once)
+# creates database tables
 Base.metadata.create_all(engine)
 
-# Keep track of logged-in user
+# Keep track of logged-in user and predictions
 diagnosisClicked = False
 loggedIn = False
 user = ""
 currPredict = ""
 currID = 0
 
+# for the homepage
 @app.route('/')
 def index():
     if loggedIn:
@@ -100,6 +29,7 @@ def index():
 
     return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
 
+# for the consent and HIPAA compliance page
 @app.route('/consent', methods=["GET", "POST"])
 def consent():
     if request.method == "POST":
@@ -118,6 +48,7 @@ def consent():
 
     return render_template('consent.html')
 
+# for the login page
 @app.route('/login', methods=["GET", "POST"])
 def login():
     loginFeedback = "DNE"
@@ -145,6 +76,7 @@ def login():
 
     return render_template('login.html', loginFeedback=loginFeedback)
 
+# for the sign-up page
 @app.route('/signUp', methods=["GET", "POST"])
 def signUp():
     accountStatus = "DNE"
@@ -173,10 +105,12 @@ def signUp():
 
     return render_template('signUp.html', accountStatus=accountStatus)
 
+# for the about page
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+# for the user profile page where they can see their past queries
 @app.route('/profile')
 def profile():
     currAccount = db_session.query(User).filter_by(username=user).first()
@@ -214,6 +148,7 @@ def profile():
 
     return render_template('profile.html', heart=heart_diagnostics, stroke=stroke_diagnostics, diabetes=diabetes_diagnostics)
 
+# for the diagnosis page where user can enter their health metrics
 @app.route('/diagnosis', methods=["POST"])
 def diagnosis():
     global diagnosisClicked
@@ -227,6 +162,7 @@ def diagnosis():
     diagnosisClicked = False
     return render_template('diagnosis.html', action=action)
 
+# not a page but stores the user's inputs from the diagnosis page
 @app.route('/result', methods=["POST"])
 def result():
     global currPredict, currID
@@ -293,6 +229,7 @@ def result():
 
     return redirect(url_for('predict'))
 
+# based on the user's inputs, uses a ML model to predict the risk of stroke, diabetes, or heart disease
 @app.route('/predict', methods=['GET'])
 def predict():
     prediction = -1
@@ -386,6 +323,7 @@ def predict():
     
     return render_template('result.html', type=currPredict, result=prediction)
 
+# signs out the user
 @app.route('/signOut')
 def signOut():
     global loggedIn, user
@@ -393,6 +331,7 @@ def signOut():
     user = ""
     return redirect(url_for("index"))
 
+# runs the application
 if __name__ == '__main__':
     app.run(debug=True)
 
