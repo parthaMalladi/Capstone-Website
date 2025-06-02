@@ -81,7 +81,7 @@ class HeartDiseaseDiagnostic(Base):
     st_slope = Column(String)
 
 # Create the table (run once)
-# Base.metadata.create_all(engine)
+Base.metadata.create_all(engine)
 
 # Keep track of logged-in user
 diagnosisClicked = False
