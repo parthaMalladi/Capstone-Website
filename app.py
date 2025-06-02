@@ -13,7 +13,8 @@ import pandas as pd
 app = Flask(__name__)
 
 # Connect to PostgreSQL
-engine = create_engine(os.environ.get("DATABASE_URL"))
+DATABASE_URL = ""
+engine = create_engine(DATABASE_URL)
 Base = declarative_base()
 DBSession = sessionmaker(bind=engine)
 db_session = DBSession()

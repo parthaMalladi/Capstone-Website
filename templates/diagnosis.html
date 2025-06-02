@@ -48,62 +48,94 @@
                     <form action="/result" method="POST" autocomplete="off">
                         <!-- Gender -->
                         <div class="mb-3">
-                            <label class="form-label">Gender ("Male" or "Female")</label>
-                            <input type="text" class="form-control" name="gender" autocomplete="off" required>
+                            <label class="form-label">Select your sex</label>
+                            <select class="form-select" name="gender" required>
+                                <option value="" disabled selected>Select sex</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
                         </div>
 
                         <!-- Age -->
                         <div class="mb-3">
-                            <label class="form-label">Age (Enter a number in terms of years)</label>
-                            <input type="text" class="form-control" name="age" autocomplete="off" required>
+                            <label class="form-label">Age</label>
+                            <input type="text" class="form-control" name="age" autocomplete="off" placeholder="Enter a number in terms of years" required>
                         </div>
 
                         <!-- Hypertension -->
                         <div class="mb-3">
-                            <label class="form-label">Hypertension ("1" if you have hypertension, "0" otherwise)</label>
-                            <input type="text" class="form-control" name="hypertension" autocomplete="off" required>
+                            <label class="form-label">Do you have hypertension?</label>
+                            <select class="form-select" name="hypertension" required>
+                                <option value="" disabled selected>Yes or No</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
 
                         <!-- Heart Disease -->
                         <div class="mb-3">
-                            <label class="form-label">Heart Disease ("1" if you have heart disease, "0" otherwise)</label>
-                            <input type="text" class="form-control" name="heart_disease" autocomplete="off" required>
+                            <label class="form-label">Do you have heart disease?</label>
+                            <select class="form-select" name="heart_disease" required>
+                                <option value="" disabled selected>Yes or No</option>
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
 
                         <!-- Ever Married -->
                         <div class="mb-3">
-                            <label class="form-label">Ever Married ("Yes" or "No")</label>
-                            <input type="text" class="form-control" name="ever_married" autocomplete="off" required>
+                            <label class="form-label">Have you ever been married?</label>
+                            <select class="form-select" name="ever_married" required>
+                                <option value="" disabled selected>Yes or No</option>
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                            </select>
                         </div>
 
                         <!-- Work Type -->
                         <div class="mb-3">
-                            <label class="form-label">Work Type ("children", "Govt_jov", "Never_worked", "Private" or "Self-employed")</label>
-                            <input type="text" class="form-control" name="work_type" autocomplete="off" required>
+                            <label class="form-label">What is the type of work that you do?</label>
+                            <select class="form-select" name="work_type" required>
+                                <option value="" disabled selected>Select work type</option>
+                                <option value="children">Work with children</option>
+                                <option value="Govt_jov">Government Job</option>
+                                <option value="Never_worked">Never worked before</option>
+                                <option value="Private">Work for a private company</option>
+                                <option value="Self-employed">I am self-employed</option>
+                            </select>
                         </div>
 
                         <!-- Residence Type -->
                         <div class="mb-3">
-                            <label class="form-label">Residence Type ("Rural" or "Urban")</label>
-                            <input type="text" class="form-control" name="residence_type" autocomplete="off" required>
+                            <label class="form-label">What is your residence type?</label>
+                            <select class="form-select" name="residence_type" required>
+                                <option value="" disabled selected>Rural or Urban</option>
+                                <option value="Rural">Rural area</option>
+                                <option value="Urban">Urban area</option>
+                            </select>
                         </div>
 
                         <!-- Average Glucose Level -->
                         <div class="mb-3">
-                            <label class="form-label">Avg Glucose Level (Enter a number in terms of mg/dL)</label>
-                            <input type="text" class="form-control" name="avg_glucose_level" autocomplete="off" required>
+                            <label class="form-label">Average Glucose Level</label>
+                            <input type="text" class="form-control" name="avg_glucose_level" autocomplete="off" placeholder="Enter a number in terms of mg/dL" required>
                         </div>
 
                         <!-- BMI -->
                         <div class="mb-3">
-                            <label class="form-label">BMI (Enter a number for your BMI)</label>
-                            <input type="text" class="form-control" name="bmi" autocomplete="off" required>
+                            <label class="form-label">BMI Value</label>
+                            <input type="text" class="form-control" name="bmi" autocomplete="off" placeholder="Enter a number for your BMI" required>
                         </div>
 
                         <!-- Smoking Status -->
                         <div class="mb-3">
-                            <label class="form-label">Smoking Status ("formerly smoked", "never smoked", "smokes")</label>
-                            <input type="text" class="form-control" name="smoking_status" autocomplete="off" required>
+                            <label class="form-label">Smoking Status</label>
+                            <select class="form-select" name="smoking_status" required>
+                                <option value="" disabled selected>Select smoking status</option>
+                                <option value="formerly smoked">I used to smoke and don't anymore</option>
+                                <option value="never smoked">I never smoked before</option>
+                                <option value="smokes">I currently smoke</option>
+                            </select>
                         </div>
 
                         <!-- Hidden input -->
@@ -117,68 +149,96 @@
                     <form action="/result" method="POST">
                         <!-- Age -->
                         <div class="mb-3">
-                            <label class="form-label">Age (Enter a number in terms of years)</label>
-                            <input type="text" class="form-control" name="age" autocomplete="off" required>
+                            <label class="form-label">Age</label>
+                            <input type="text" class="form-control" name="age" autocomplete="off" placeholder="Enter a number in terms of years" required>
                         </div>
 
                         <!-- Sex -->
                         <div class="mb-3">
-                            <label class="form-label">Sex ("M" for Male, "F" for Female)</label>
-                            <input type="text" class="form-control" name="sex" autocomplete="off" required>
+                            <label class="form-label">Select Your Sex</label>
+                            <select class="form-select" name="sex" required>
+                                <option value="" disabled selected>Select sex</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                            </select>
                         </div>
 
                         <!-- Chest Pain Type -->
                         <div class="mb-3">
-                            <label class="form-label">Chest Pain Type ("TA": Typical Angina, "ATA": Atypical Angina, "NAP": Non-Anginal Pain, "ASY": Asymptomatic)</label>
-                            <input type="text" class="form-control" name="chestPainType" autocomplete="off" required>
+                            <label class="form-label">Chest Pain Type</label>
+                            <select class="form-select" name="chestPainType" required>
+                                <option value="" disabled selected>Select chest pain type</option>
+                                <option value="TA">Typical Angina</option>
+                                <option value="ATA">Atypical Angina</option>
+                                <option value="NAP">Non-Anginal Pain</option>
+                                <option value="ASY">Asymptomatic</option>                                
+                            </select>
                         </div>
 
                         <!-- Resting BP -->
                         <div class="mb-3">
-                            <label class="form-label">RestingBP (Enter a number for systolic pressure in terms of mm Hg)</label>
-                            <input type="text" class="form-control" name="restingBP" autocomplete="off" required>
+                            <label class="form-label">Resting Blood Pressure</label>
+                            <input type="text" class="form-control" name="restingBP" autocomplete="off" placeholder="Enter a number for systolic pressure in terms of mm Hg" required>
                         </div>
 
                         <!-- Cholesterol -->
                         <div class="mb-3">
-                            <label class="form-label">Cholesterol (Enter a number for serum cholesterol in terms of mm/dL)</label>
-                            <input type="text" class="form-control" name="cholesterol" autocomplete="off" required>
+                            <label class="form-label">Cholesterol</label>
+                            <input type="text" class="form-control" name="cholesterol" autocomplete="off" placeholder="Enter a number for serum cholesterol in terms of mm/dL" required>
                         </div>
 
                         <!-- Fasting BS -->
                         <div class="mb-3">
-                            <label class="form-label">FastingBS (Enter "1" if fasting blood sugar is above 120 mg/dL, otherwise enter "0")</label>
-                            <input type="text" class="form-control" name="fastingBS" autocomplete="off" required>
+                            <label class="form-label">Fasting Blood Sugar Level</label>
+                            <select class="form-select" name="fastingBS" required>
+                                <option value="" disabled selected>Select your fasting blood sugar</option>
+                                <option value="1">Above 120 mg/dL</option>
+                                <option value="0">Below 120 mg/dL</option>                                                               
+                            </select>
                         </div>
 
                         <!-- Resting ECG -->
                         <div class="mb-3">
-                            <label class="form-label">RestingECG ("Normal": Normal, "ST": T wave inversions and/or ST elevation or depression of > 0.05 mV, "LVH": showing probable or definite left ventricular hypertrophy)</label>
-                            <input type="text" class="form-control" name="restingECG" autocomplete="off" required>
+                            <label class="form-label">Resting ECG</label>
+                            <select class="form-select" name="restingECG" required>
+                                <option value="" disabled selected>Select your ECG reading</option>
+                                <option value="Normal">Normal ECG Reading</option>
+                                <option value="ST">T wave inversions and/or ST elevation or depression of > 0.05 mV</option>
+                                <option value="LVH">Showing probable or definite left ventricular hypertrophy</option>                               
+                            </select>
                         </div>
 
                         <!-- Max HR -->
                         <div class="mb-3">
-                            <label class="form-label">MaxHR (Enter a number in terms of BPM)</label>
-                            <input type="text" class="form-control" name="maxHR" autocomplete="off" required>
+                            <label class="form-label">Max Heart Rate</label>
+                            <input type="text" class="form-control" name="maxHR" autocomplete="off" placeholder="Enter a number in terms of BPM" required>
                         </div>
 
                         <!-- Exercise Angina -->
                         <div class="mb-3">
-                            <label class="form-label">ExerciseAngina ("Y" if you experience chest pain or discomfort while exercising, "N" otherwise)</label>
-                            <input type="text" class="form-control" name="exerciseAngina" autocomplete="off" required>
+                            <label class="form-label">Exercise Angina</label>
+                            <select class="form-select" name="exerciseAngina" required>
+                                <option value="" disabled selected>Select if you have exercise angina</option>
+                                <option value="Y">I experience chest pain or discomfort while exercising</option>
+                                <option value="N">I don't experience chest pain or discomfort while exercising</option>                               
+                            </select>
                         </div>
 
                         <!-- Oldpeak -->
                         <div class="mb-3">
-                            <label class="form-label">Oldpeak (Enter a number for the ST Depression; usually between -2.6 and 6.2)</label>
-                            <input type="text" class="form-control" name="oldpeak" autocomplete="off" required>
+                            <label class="form-label">Oldpeak Value</label>
+                            <input type="text" class="form-control" name="oldpeak" autocomplete="off" placeholder="Enter a number for the ST Depression; usually between -2.6 and 6.2" required>
                         </div>
 
                         <!-- ST_Slope -->
                         <div class="mb-3">
-                            <label class="form-label">ST_Slope ("Up": upsloping, "Flat": flat, "Down": downsloping)</label>
-                            <input type="text" class="form-control" name="st_slope" autocomplete="off" required>
+                            <label class="form-label">ST_Slope Shape</label>
+                            <select class="form-select" name="st_slope" required>
+                                <option value="" disabled selected>Select your ST_Slope Shape</option>
+                                <option value="Up">Upsloping</option>
+                                <option value="Flat">Flat</option>
+                                <option value="Down">Downsloping</option>                               
+                            </select>
                         </div>
 
                         <!-- Hidden input -->
@@ -192,50 +252,50 @@
                     <form action="/result" method="POST">
                         <!-- Pregnancies -->
                         <div class="mb-3">
-                            <label class="form-label">Pregnancies (Enter the number of times you have been pregnant)</label>
-                            <input type="text" class="form-control" name="pregnancies" autocomplete="off" required>
+                            <label class="form-label">Pregnancies</label>
+                            <input type="text" class="form-control" name="pregnancies" autocomplete="off" placeholder="Enter the number of times you have been pregnant" required>
                         </div>
 
                         <!-- Glucose -->
                         <div class="mb-3">
-                            <label class="form-label">Glucose (Enter a number in terms of mg/dL)</label>
-                            <input type="text" class="form-control" name="glucose" autocomplete="off" required>
+                            <label class="form-label">Blood Glucose</label>
+                            <input type="text" class="form-control" name="glucose" autocomplete="off" placeholder="Enter a number in terms of mg/dL" required>
                         </div>
 
                         <!-- Blood Pressure -->
                         <div class="mb-3">
-                            <label class="form-label">Blood Pressure (Enter a number for diastolic pressure in terms of mm Hg)</label>
-                            <input type="text" class="form-control" name="bloodPressure" autocomplete="off" required>
+                            <label class="form-label">Blood Pressure</label>
+                            <input type="text" class="form-control" name="bloodPressure" autocomplete="off" placeholder="Enter a number for diastolic pressure in terms of mm Hg" required>
                         </div>
 
                         <!-- Skin Thickness -->
                         <div class="mb-3">
-                            <label class="form-label">Skin Thickness (Enter a number in terms of mm)</label>
-                            <input type="text" class="form-control" name="skinThickness" autocomplete="off" required>
+                            <label class="form-label">Skin Thickness</label>
+                            <input type="text" class="form-control" name="skinThickness" autocomplete="off" placeholder="Enter a number in terms of mm" required>
                         </div>
 
                         <!-- Insulin -->
                         <div class="mb-3">
-                            <label class="form-label">Insulin (Enter a number in terms of µU/mL)</label>
-                            <input type="text" class="form-control" name="insulin" autocomplete="off" required>
+                            <label class="form-label">Insulin Level</label>
+                            <input type="text" class="form-control" name="insulin" autocomplete="off" placeholder="Enter a number in terms of µU/mL" required>
                         </div>
 
                         <!-- BMI -->
                         <div class="mb-3">
-                            <label class="form-label">BMI (Enter a number for your BMI)</label>
-                            <input type="text" class="form-control" name="bmi" autocomplete="off" required>
+                            <label class="form-label">BMI Value</label>
+                            <input type="text" class="form-control" name="bmi" autocomplete="off" placeholder="Enter a number for your BMI" required>
                         </div>
 
                         <!-- Diabetes Pedigree Function -->
                         <div class="mb-3">
-                            <label class="form-label">Diabetes Pedigree Function (Enter a decimal value between 0 and 1)</label>
-                            <input type="text" class="form-control" name="diabetesPedigreeFunction" autocomplete="off" required>
+                            <label class="form-label">Diabetes Pedigree Function</label>
+                            <input type="text" class="form-control" name="diabetesPedigreeFunction" autocomplete="off" placeholder="Enter a decimal value between 0 and 1" required>
                         </div>
 
                         <!-- Age -->
                         <div class="mb-3">
-                            <label class="form-label">Age (Enter a number in terms of years)</label>
-                            <input type="text" class="form-control" name="age" autocomplete="off" required>
+                            <label class="form-label">Age</label>
+                            <input type="text" class="form-control" name="age" autocomplete="off" placeholder="Enter a number in terms of years" required>
                         </div>
 
                         <!-- Hidden input -->
