@@ -4,11 +4,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 # when running locally
-DATABASE_URL = "postgresql+psycopg2://postgres:Partha#2004@localhost/HealthFinder"
-engine = create_engine(DATABASE_URL)
+# DATABASE_URL = ""
+# engine = create_engine(DATABASE_URL)
 
 # when running online
-# engine = create_engine(os.environ.get("DATABASE_URL"))
+engine = create_engine(os.environ.get("DATABASE_URL"))
 
 # postgres connection
 Base = declarative_base()

@@ -6,7 +6,7 @@ from sqlalchemy import inspect
 import joblib
 import numpy as np
 import pandas as pd
-from insert_stats import getInfo
+from insert_stats import getInfo, insertStats
 
 app = Flask(__name__)
 
@@ -28,6 +28,7 @@ def index():
         if curr.consent == False:
             return redirect(url_for("consent"))
 
+    insertStats()
     return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
 
 # for the consent and HIPAA compliance page
