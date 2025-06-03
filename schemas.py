@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Boolean
+from sqlalchemy import Column, String, Integer, ForeignKey, DateTime, Boolean, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from db import Base
@@ -64,3 +64,51 @@ class HeartDiseaseDiagnostic(Base):
     exercise_angina = Column(String)
     oldpeak = Column(String)
     st_slope = Column(String)
+
+###################################################### TABLES TO HOLD AVERAGES ######################################################
+
+# diabetes stats
+class DiabetesStats(Base):
+    __tablename__ = 'diabetes_stats'
+    id = Column(Integer, primary_key=True)
+    average_pregnancies = Column(String)
+    average_glucose = Column(String)
+    average_blood_pressure = Column(String)
+    average_skin_thickness = Column(String)
+    average_insulin = Column(String)
+    average_bmi = Column(String)
+    average_diabetes_pedigree_function = Column(String)
+    average_age = Column(String)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+# stroke stats
+class StrokeStats(Base):
+    __tablename__ = 'stroke_stats'
+    id = Column(Integer, primary_key=True)
+    average_gender = Column(String)
+    average_age = Column(String)
+    average_hypertension = Column(String)
+    average_heart_disease = Column(String)
+    average_ever_married = Column(String)
+    average_work_type = Column(String)
+    average_residence_type = Column(String)
+    average_avg_glucose_level = Column(String)
+    average_bmi = Column(String)
+    average_smoking_status = Column(String)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
+
+# heart disease stats
+class HeartDiseaseStats(Base):
+    __tablename__ = 'heart_disease_stats'
+    id = Column(Integer, primary_key=True)
+    average_age = Column(String)
+    average_sex = Column(String)
+    average_resting_bp = Column(String)
+    average_cholesterol = Column(String)
+    average_fasting_bs = Column(String)
+    average_ecg = Column(String)
+    average_max_hr = Column(String)
+    average_exercise_angina = Column(String)
+    average_oldpeak = Column(String)
+    average_st_slope = Column(String)
+    updated_at = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
