@@ -28,7 +28,6 @@ def index():
         if curr.consent == False:
             return redirect(url_for("consent"))
 
-    insertStats()
     return render_template('index.html', user=user, loggedIn=loggedIn, diagnosisClicked=diagnosisClicked)
 
 # for the consent and HIPAA compliance page
