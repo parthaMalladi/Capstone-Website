@@ -1,11 +1,12 @@
 import os
 from flask import Flask, render_template, request, url_for, redirect
 from db import db_session, Base, engine
-from schemas import User, Diagnostic, DiabetesDiagnostic, StrokeDiagnostic, HeartDiseaseDiagnostic
+from schemas import User, Diagnostic, DiabetesDiagnostic, StrokeDiagnostic, HeartDiseaseDiagnostic, DiabetesStats, StrokeStats, HeartDiseaseStats
 from sqlalchemy import inspect
 import joblib
 import numpy as np
 import pandas as pd
+from insert_stats import getInfo
 
 app = Flask(__name__)
 
@@ -321,7 +322,17 @@ def predict():
     else:
         return "Invalid Query", 400
     
-    return render_template('result.html', type=currPredict, result=prediction)
+    # get advice and citations
+    temp = []
+
+    if currPredict == 'diabetes':
+        temp = getInfo(DiabetesDiagnostic, DiabetesStats, currID)
+    elif currPredict == "stroke":
+        temp = getInfo(StrokeDiagnostic, StrokeStats, currID)
+    elif currPredict == "heart":
+        temp = getInfo(HeartDiseaseDiagnostic, HeartDiseaseStats, currID)
+
+    return render_template('result.html', type=currPredict, result=prediction, advice=temp[0], cite=temp[1])
 
 # signs out the user
 @app.route('/signOut')

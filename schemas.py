@@ -103,6 +103,7 @@ class HeartDiseaseStats(Base):
     id = Column(Integer, primary_key=True)
     average_age = Column(String)
     average_sex = Column(String)
+    average_chest_pain_type = Column(String)
     average_resting_bp = Column(String)
     average_cholesterol = Column(String)
     average_fasting_bs = Column(String)

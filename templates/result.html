@@ -8,21 +8,26 @@
 </head>
 <body>
     <div class="container">
-        <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-          <div class="col-md-3 mb-2 mb-md-0">
-            <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
-                    <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
-                </svg>
-            </a>
-          </div>
-    
-          <div class="col-md-3 text-end">
-              <a href="/"><button type="button" class="btn btn-primary me-2">Return</button></a>
-          </div>
+        <header class="d-flex flex-wrap align-items-center justify-content-between py-3 mb-4 border-bottom">
+            <div class="col-md-3 d-flex justify-content-start mb-2 mb-md-0">
+                <a href="/" class="d-inline-flex link-body-emphasis text-decoration-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-bookmark-heart" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 4.41c1.387-1.425 4.854 1.07 0 4.277C3.146 5.48 6.613 2.986 8 4.412z"/>
+                        <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z"/>
+                    </svg>
+                </a>
+            </div>
+
+            <div class="col-md-6 text-center">
+                <h1 class="m-0 text-primary">Health Finder</h1>
+            </div>
+
+            <div class="col-md-3 d-flex justify-content-end">
+                <a href="/"><button type="button" class="btn btn-primary me-2">Return</button></a>
+            </div>
         </header>
     </div>
+
     
     {% if result == 0 %}
     <div class="card text-white bg-success mb-3 mx-auto" style="max-width: 30rem;">
@@ -50,6 +55,30 @@
         {% endif %}
         <p class="card-text">Please consider consulting a healthcare professional.</p>
     </div>
+    </div>
+    {% endif %}
+
+    {% if advice and cite %}
+    <div class="container mb-5">
+        <div class="card mx-auto" style="max-width: 40rem;">
+            <div class="card-header bg-primary text-white">
+                Personalized Health Advice
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    {% for i in range(advice|length) %}
+                    <li class="list-group-item">
+                        {{ advice[i] }}
+                        {% if cite[i] %}
+                        <a href="{{ cite[i] }}" target="_blank" class="ms-2 text-decoration-none text-primary">
+                            [Source]
+                        </a>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
     {% endif %}
 
